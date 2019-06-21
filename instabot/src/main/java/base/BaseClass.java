@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.Wait;
 
 public class BaseClass {
 	
-	private WebDriver driver;
+	protected WebDriver driver;
 	
 	public BaseClass(WebDriver driver){
 		this.driver = driver;
