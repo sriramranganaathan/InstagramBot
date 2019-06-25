@@ -1,5 +1,6 @@
 package base;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -38,6 +39,15 @@ public class BaseClass {
 	
 	public void type(By locator, String text){
 		findElement(locator).sendKeys(text);
+	}
+	
+	public boolean isDisplayed(By locator){
+		return findElement(locator).isDisplayed();
+	}
+	
+	public List<WebElement> findElements(By locator){
+		waitUntilElementFound(locator);
+		return driver.findElements(locator);
 	}
 
 }
