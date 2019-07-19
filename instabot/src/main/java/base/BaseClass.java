@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,6 +49,11 @@ public class BaseClass {
 	public List<WebElement> findElements(By locator){
 		waitUntilElementFound(locator);
 		return driver.findElements(locator);
+	}
+	
+	public void scrollUsingJavaScriptExecutor(String howMuch){
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("window.scrollBy(0,"+howMuch+")", "");
 	}
 
 }

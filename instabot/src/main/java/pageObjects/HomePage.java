@@ -23,8 +23,7 @@ public class HomePage extends BaseClass{
 	
 	public void search(String searchText){
 		type(searchBox, searchText);
-		Actions actions = new Actions(driver);
-		actions.keyDown(Keys.ENTER).keyUp(Keys.ENTER).perform(); 
+		click(By.xpath("//span[text()='"+searchText+"']"));
 	}
 	
 	public void clickExplore(){
