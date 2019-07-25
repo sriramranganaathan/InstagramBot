@@ -17,15 +17,21 @@ public class ImageDisplayed extends BaseClass{
 	By photoDescription = By.xpath(Locator.getLocator("imagePage_photoDescription"));
 	By likeButton = By.xpath(Locator.getLocator("imagePage_photoLikeButton"));
 	By profileLink = By.xpath(Locator.getLocator("imagePage_profileLink"));
-	By searchedHashtag = By.xpath(Locator.getLocator(""));
+	By searchedHashtag = By.xpath(Locator.getLocator("searchPage_searchedHashTag"));
 	By listOfHashTags = By.xpath(Locator.getLocator("searchPage_listOfHashTags"));
+	By commentTextBox = By.cssSelector(Locator.getLocator("imagePage_commentTextBox"));
+	By postCommentButton = By.xpath(Locator.getLocator("imagePage_postButton"));
+	By listOfReplyToCommentButton = By.xpath(Locator.getLocator("imagePage_replyButton"));
+	By unlikePhotoButton = By.xpath(Locator.getLocator("imagePage_unlikePhotoButton"));
 
 	public ImageDisplayed(WebDriver driver) {
 		super(driver);
 	}
 	
-	public String getNumberOfLikes(){
-		return findElement(numberOfLikes).getText();
+	public int getNumberOfLikes(){
+		String likes = findElement(numberOfLikes).getText();
+		int numberOfLikes = Integer.parseInt(likes);
+		return numberOfLikes;
 	}
 	
 	public List<WebElement> getAllComments(){
@@ -36,12 +42,20 @@ public class ImageDisplayed extends BaseClass{
 		return findElement(photoDescription);
 	}
 	
+	public boolean checkIfPhotoIsLiked(){
+		return findElement(unlikePhotoButton).isDisplayed();
+	}
+	
 	public void likePhoto(){
-		findElement(likeButton).click();
+		click(likeButton);
 	}
 	
 	public WebElement getProfileLink(){
 		return findElement(profileLink);
+	}
+	
+	public void goToProfile(){
+		click(profileLink);
 	}
 	
 	public List<WebElement> getListOfHashTags(){
@@ -55,6 +69,15 @@ public class ImageDisplayed extends BaseClass{
 				isFound= true;
 		}
 		return isFound;
+	}
+	
+	public void addCommentToPhoto(String comment){
+		type(commentTextBox, comment);
+		click(postCommentButton);
+	}
+	
+	public List<WebElement> listOfReplyToComment(){
+		return findElements(listOfReplyToCommentButton);
 	}
 
 }

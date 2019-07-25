@@ -25,7 +25,7 @@ public class BaseClass {
 	}
 	
 	public void waitUntilElementFound(By locator){
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(10, TimeUnit.SECONDS).pollingEvery(1, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(10, TimeUnit.SECONDS).pollingEvery(300, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class);
 		wait.until(ExpectedConditions.elementToBeClickable(locator));
 	}
 	
