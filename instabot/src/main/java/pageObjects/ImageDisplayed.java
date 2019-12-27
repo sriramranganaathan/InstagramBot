@@ -23,9 +23,14 @@ public class ImageDisplayed extends BaseClass{
 	By postCommentButton = By.xpath(Locator.getLocator("imagePage_postButton"));
 	By listOfReplyToCommentButton = By.xpath(Locator.getLocator("imagePage_replyButton"));
 	By unlikePhotoButton = By.xpath(Locator.getLocator("imagePage_unlikePhotoButton"));
-
+	By closeButton = By.xpath(Locator.getLocator("imagePage_closePhotoButton"));
+	
 	public ImageDisplayed(WebDriver driver) {
 		super(driver);
+	}
+	
+	public void closePhoto(){
+		click(closeButton);
 	}
 	
 	public int getNumberOfLikes(){
@@ -43,7 +48,8 @@ public class ImageDisplayed extends BaseClass{
 	}
 	
 	public boolean checkIfPhotoIsLiked(){
-		return findElement(unlikePhotoButton).isDisplayed();
+		//return findElement(unlikePhotoButton).isDisplayed();
+		return findElements(unlikePhotoButton).size()>0;
 	}
 	
 	public void likePhoto(){

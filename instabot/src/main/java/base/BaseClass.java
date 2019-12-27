@@ -1,8 +1,16 @@
 package base;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -17,10 +25,6 @@ public class BaseClass {
 	protected WebDriver driver;
 	
 	public BaseClass(WebDriver driver){
-		this.driver = driver;
-	}
-	
-	public void getDriver(WebDriver driver){
 		this.driver = driver;
 	}
 	
@@ -55,5 +59,10 @@ public class BaseClass {
 		JavascriptExecutor jse = (JavascriptExecutor)driver;
 		jse.executeScript("window.scrollBy(0,"+howMuch+")", "");
 	}
-
+	
+	public void scrollPageToBottom(){
+		((JavascriptExecutor) driver)
+	     .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+	}
+	
 }
