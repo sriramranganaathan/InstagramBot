@@ -20,11 +20,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-public class BaseClass {
+public class BasePage {
 	
-	protected WebDriver driver;
+	protected static WebDriver driver;
 	
-	public BaseClass(WebDriver driver){
+	public BasePage(WebDriver driver){
 		this.driver = driver;
 	}
 	

@@ -4,10 +4,10 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import base.BaseClass;
+import base.BasePage;
 import readLocator.Locator;
 
-public class CommonActions extends BaseClass{
+public class CommonActions extends BasePage{
 	
 	static Logger log = Logger.getLogger(CommonActions.class);
 	

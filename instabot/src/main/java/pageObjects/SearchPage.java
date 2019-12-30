@@ -6,10 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import base.BaseClass;
+import base.BasePage;
 import readLocator.Locator;
 
-public class SearchPage extends BaseClass{
+public class SearchPage extends BasePage{
 	
 	By searchedHashTag = By.xpath(Locator.getLocator("searchPage_searchedHashTag"));
 	By numberOfPosts = By.xpath(Locator.getLocator("searchPage_numberOfPosts"));

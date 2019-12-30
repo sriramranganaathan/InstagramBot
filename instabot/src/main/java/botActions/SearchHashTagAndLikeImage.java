@@ -10,6 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
+import flagForPhotos.Photo;
 import pageObjects.CommonActions;
 import pageObjects.HomePage;
 import pageObjects.ImageDisplayed;
@@ -40,46 +41,63 @@ public class SearchHashTagAndLikeImage extends BaseTest{
 			commonactions.turnOffNotificationsFromPopup();
 			logger.info("turned off notification popup");
 		}
-		
+		HomePage homepage = new HomePage(driver);
+		homepage.returnToHomePage();
 		List<String> hashtagList = readData("HashTag");
+		logger.info("List of hashtags: "+hashtagList.toString());
 		
 		for(String hashtag : hashtagList){
-			
-			//Search for hash tag from home page
-			HomePage homepage = new HomePage(driver);
-			homepage.search(hashtag);
-			SearchPage searchpage = new SearchPage(driver);
-			//Scroll to the bottom of page to get list of photos
-			searchpage.scrollPageToBottom();
-			Thread.sleep(10000);
-			//Iterate through the element list to perform actions
-			List<WebElement> listelemnt = searchpage.getListOfSearchedPhotos();
-			Iterator<WebElement> itr = listelemnt.iterator();
-			while(itr.hasNext()){
-				getPhotosAnalyzeClickAndLike(itr.next(), searchpage.getNumberOfLikesForSearchedPhoto(), searchpage.getNumberOfCommentsForSearchedPhoto());
-				Thread.sleep(2000);
+			if(getLikeCount()<Integer.parseInt(readData("LikesCountCriteria").get(0))){
+				//Search for hash tag from home page
+				homepage.search(hashtag);
+				logger.info("Searched hashtag: "+hashtag);
+				SearchPage searchpage = new SearchPage(driver);
+				//Scroll to the bottom of page to get list of photos
+				searchpage.scrollPageToBottom();
+				Thread.sleep(10000);
+				//Iterate through the element list to perform actions
+				List<WebElement> listelemnt = searchpage.getListOfSearchedPhotos();
+				Iterator<WebElement> itr = listelemnt.iterator();
+				while(itr.hasNext()){
+					getPhotosAnalyzeClickAndLike(itr.next(), searchpage.getNumberOfLikesForSearchedPhoto(), searchpage.getNumberOfCommentsForSearchedPhoto());
+					Thread.sleep(2000);
+				}
+				writeLikeCount(photoLikedCount);
 			}
-			writeLikeCount(photoLikedCount);
+			else{
+				break;
+			}
 		}
 	}
 	
 	public void getPhotosAnalyzeClickAndLike(WebElement element, String imageLikes, String imageComments) throws InterruptedException{
 		
+		ImageDisplayed image = new ImageDisplayed(driver);
 		Actions actions = new Actions(driver);
 		actions.moveToElement(element).build().perform();
 		int numberOfLikes = Integer.parseInt(imageLikes);
 		int numberOfComments = Integer.parseInt(imageComments);
-		if(numberOfLikes>=200 && numberOfComments>10){
+		if(numberOfLikes>=400 && numberOfComments>10){
 			actions.click().build().perform();
 			Thread.sleep(1500);
-			ImageDisplayed image = new ImageDisplayed(driver);
-			if(image.getNumberOfLikes()>=200 & image.checkIfPhotoIsLiked()==false){
+			if(image.checkIfPhotoIsLiked()==false){
 				image.likePhoto();
 				photoLikedCount++;
+				logger.info("Liked count: "+String.valueOf(photoLikedCount));
 				Thread.sleep(2000);
 			}
 			image.closePhoto();
 		}
+		else if(numberOfLikes>=50){
+			actions.click().build().perform();
+			Thread.sleep(1500);
+			if(Photo.photoTimingWithNumberOfLikesCriteria()&&image.checkIfPhotoIsLiked()==false)
+				image.likePhoto();
+			photoLikedCount++;
+			logger.info("Liked count: "+String.valueOf(photoLikedCount));
+			Thread.sleep(2000);
+		}
+		image.closePhoto();
 	}
 
 }

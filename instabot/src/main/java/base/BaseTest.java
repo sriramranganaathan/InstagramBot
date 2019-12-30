@@ -44,27 +44,25 @@ public class BaseTest {
 			FileInputStream fileinput = new FileInputStream(new File(".\\src\\main\\resources\\data\\instaInputData.xlsx"));
 			XSSFWorkbook workbook = new XSSFWorkbook(fileinput);
 			XSSFSheet sheet = workbook.getSheet(this.getClass().toString());
+			Row row = sheet.getRow(0);
+			Iterator<Cell> cellIterator = row.iterator();
+			int cellNumber = 0;
+			while(cellIterator.hasNext()){
+				Cell cell = cellIterator.next();
+				if(cell.getStringCellValue().equalsIgnoreCase(columnValue)){
+					cellNumber = cell.getColumnIndex();
+				}
+			}
 			Iterator<Row> rowIterator = sheet.iterator();
 			while(rowIterator.hasNext()){
-				Row row = rowIterator.next();
-				Iterator<Cell> cellIterator = row.iterator();
-				while(cellIterator.hasNext()){
-					Cell cell = cellIterator.next();
-					if(cell.getStringCellValue().equalsIgnoreCase(columnValue)){
-						try{
-							data.add(cell.getStringCellValue());
-						}
-						catch(Exception e){
-							System.out.println("Cell value null in excel. "+e);
-						}	
-					}
+				if(rowIterator.next().getRowNum()!=0){
+					data.add(rowIterator.next().getCell(cellNumber).getStringCellValue());
 				}
 			}
 			workbook.close();
 		}
 		catch(Exception e){
 			logger.error(e);
-			System.out.println(e);
 		}
 		return data;
 	}

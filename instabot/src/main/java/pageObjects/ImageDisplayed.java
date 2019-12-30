@@ -6,10 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import base.BaseClass;
+import base.BasePage;
 import readLocator.Locator;
 
-public class ImageDisplayed extends BaseClass{
+public class ImageDisplayed extends BasePage{
 	
 	By numberOfLikes = By.xpath(Locator.getLocator("imagePage_getNumberOfLikes"));
 	By photoComments = By.xpath(Locator.getLocator("imagePage_photoComments"));
@@ -24,6 +24,7 @@ public class ImageDisplayed extends BaseClass{
 	By listOfReplyToCommentButton = By.xpath(Locator.getLocator("imagePage_replyButton"));
 	By unlikePhotoButton = By.xpath(Locator.getLocator("imagePage_unlikePhotoButton"));
 	By closeButton = By.xpath(Locator.getLocator("imagePage_closePhotoButton"));
+	By photoPostedTime = By.xpath(Locator.getLocator("imagePage_photoPostedTime"));
 	
 	public ImageDisplayed(WebDriver driver) {
 		super(driver);
@@ -84,6 +85,10 @@ public class ImageDisplayed extends BaseClass{
 	
 	public List<WebElement> listOfReplyToComment(){
 		return findElements(listOfReplyToCommentButton);
+	}
+	
+	public String getPhotoPostedTime(){
+		return findElement(photoPostedTime).getText();
 	}
 
 }

@@ -22,5 +22,11 @@ public class FollowActions extends BaseTest{
 	public FollowActions(WebDriver driver){
 		super(driver);
 	}
+	
+	/**
+	 * Follow users based on certain conditions
+	 * Search hash tags and select users through photos
+	 * If condition satisfies follow user. Loop until count reaches limit
+	 */
 
 }
