@@ -19,6 +19,7 @@ public class ProfilePage extends BasePage{
 	By profileSuggestionButton = By.xpath(Locator.getLocator("profilePage_getProfileSuggestionsButton"));
 	By suggestedProfiles = By.xpath(Locator.getLocator("profilePage_getSuggestedProfileLink"));
 	By getNumberOfPosts = By.xpath(Locator.getLocator("profilePage_getNumberOfPosts"));
+	By profileImages = By.xpath(Locator.getLocator("profilePage_profileImages"));
 	
 	public void followUser(){
 		click(followButton);
@@ -36,6 +37,10 @@ public class ProfilePage extends BasePage{
 		String posts = findElement(getNumberOfPosts).getText();
 		int numberOfPosts = Integer.parseInt(posts);
 		return numberOfPosts;
+	}
+	
+	public List<WebElement> findImageSet(){
+		return findElements(profileImages);
 	}
 
 }

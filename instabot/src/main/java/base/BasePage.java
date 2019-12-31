@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.Wait;
 
 public class BasePage {
 	
-	protected static WebDriver driver;
+	public static WebDriver driver;
 	
 	public BasePage(WebDriver driver){
 		this.driver = driver;

@@ -2,6 +2,7 @@ package botActions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -14,16 +15,17 @@ import flagForPhotos.Photo;
 import pageObjects.CommonActions;
 import pageObjects.HomePage;
 import pageObjects.ImageDisplayed;
+import pageObjects.ProfilePage;
 import pageObjects.SearchPage;
 import readConfig.Config;
 
-public class SearchHashTagAndLikeImage extends BaseTest{
+public class LikeActions extends BaseTest{
 	
-	public SearchHashTagAndLikeImage(WebDriver driver){
+	public LikeActions(WebDriver driver){
 		super(driver);
 	}
 	
-	private static Logger logger = Logger.getLogger(SearchHashTagAndLikeImage.class);
+	private static Logger logger = Logger.getLogger(LikeActions.class);
 	
 	/**
 	 * scenario:1
@@ -31,7 +33,7 @@ public class SearchHashTagAndLikeImage extends BaseTest{
 	 * Click image and like
 	 * @throws InterruptedException 
 	 */
-	@Test
+	@Test(priority=1, groups={"likes"})
 	public void likePostsThroughHashTags() throws InterruptedException{
 		CommonActions commonactions = new CommonActions(driver);
 		commonactions.loginToUserAccount(Config.getValue("loginURL"), Config.getValue("userName"), Config.getValue("password"));
@@ -91,13 +93,46 @@ public class SearchHashTagAndLikeImage extends BaseTest{
 		else if(numberOfLikes>=50){
 			actions.click().build().perform();
 			Thread.sleep(1500);
-			if(Photo.photoTimingWithNumberOfLikesCriteria()&&image.checkIfPhotoIsLiked()==false)
+			if(Photo.photoTimingWithNumberOfLikesCriteria()&&image.checkIfPhotoIsLiked()==false){
 				image.likePhoto();
-			photoLikedCount++;
-			logger.info("Liked count: "+String.valueOf(photoLikedCount));
-			Thread.sleep(2000);
+				photoLikedCount++;
+				logger.info("Liked count: "+String.valueOf(photoLikedCount));
+				Thread.sleep(2000);
+			}
+			image.closePhoto();
 		}
-		image.closePhoto();
+	}
+	
+	/**
+	 * Get inside user's profile
+	 * Select recent photos randomly
+	 * like posts
+	 * @throws InterruptedException 
+	 */
+	@Test(priority=2, groups={"likes"})
+	public void likeUserPhotosRandomly() throws InterruptedException{
+		HomePage homepage = new HomePage(driver);
+		ProfilePage profile = new ProfilePage(driver);
+		ImageDisplayed image = new ImageDisplayed(driver);
+		List<String> users = readData("Users");
+		for(String user:users){
+			homepage.returnToHomePage();
+			homepage.search(user);
+			List<WebElement> photos = profile.findImageSet();
+			for(int i=0; i<2; i++){
+				getRandomElement(photos).click();
+				if(image.checkIfPhotoIsLiked()==false){
+					image.likePhoto();
+				}
+				image.closePhoto();
+				Thread.sleep(1500);
+			}
+		}
+	}
+	
+	public WebElement getRandomElement(List<WebElement> list){
+		Random rand = new Random(); 
+        return list.get(rand.nextInt(list.size()));
 	}
 
 }
