@@ -123,10 +123,12 @@ public class LikeActions extends BaseTest{
 				getRandomElement(photos).click();
 				if(image.checkIfPhotoIsLiked()==false){
 					image.likePhoto();
+					photoLikedCount++;
 				}
 				image.closePhoto();
 				Thread.sleep(1500);
 			}
+			writeLikeCount(photoLikedCount);
 		}
 	}
 	
