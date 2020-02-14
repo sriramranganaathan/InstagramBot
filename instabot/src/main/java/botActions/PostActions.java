@@ -1,5 +1,5 @@
 package botActions;
 
-public class UploadPhoto {
+public class PostActions {
 
 }

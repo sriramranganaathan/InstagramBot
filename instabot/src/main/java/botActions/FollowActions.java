@@ -28,5 +28,9 @@ public class FollowActions extends BaseTest{
 	 * Search hash tags and select users through photos
 	 * If condition satisfies follow user. Loop until count reaches limit
 	 */
+	@Test
+	public void followUsersThroughHashTags(){
+		
+	}
 
 }
